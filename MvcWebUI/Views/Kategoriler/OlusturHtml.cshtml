@@ -1,0 +1,14 @@
+﻿<h2>Yeni Kategoriler</h2>
+
+@*<form action="/Kategoriler/OlusturGonder">*@
+<form action="/Kategoriler/OlusturGonder" method="post">
+    <div class="mb-3">
+        <label for="tbAdi" class="form-label">Adı</label>
+        <input type="text" class="form-control" id="tbAdi" name="Adi" />
+    </div>
+    <div class="mb-3">
+        <label for="tbAciklama" class="form-label">Açıklama</label>
+        <textarea class="form-control" id="tbAciklama" rows="3" name="Aciklamasi"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>

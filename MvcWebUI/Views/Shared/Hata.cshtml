@@ -1,0 +1,12 @@
+﻿@model string
+
+<h1 class="text-danger">Hata!</h1>
+
+@if (string.IsNullOrWhiteSpace(Model))
+{
+    <p class="text-danger">İşlem sırasında hata meydana geldi!</p>
+}
+else
+{
+    <p class="text-danger">@Model</p>
+}

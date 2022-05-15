@@ -1,0 +1,55 @@
+﻿@*@model List<Business.Models.KategoriModel>*@
+@model List<KategoriModel>
+
+<h2>Kategoriler</h2>
+
+@if(TempData["Mesaj"] != null)
+{
+    <p class="text-primary">
+        @TempData["Mesaj"]
+    </p>
+}
+
+<p>
+    <a asp-action="OlusturGetir">Yeni Kategori</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Adı
+            </th>
+            <th>
+                Açıklaması
+            </th>
+            <th>
+                Ürün Sayısı
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(KategoriModel kategori in Model)
+        {
+            <tr>
+                <td>
+                    @kategori.Adi
+                </td>
+                <td>
+                    @kategori.Aciklamasi
+                </td>
+                <td>
+                    @kategori.UrunSayisiDisplay
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id=@kategori.Id>Düzenle</a> |
+                    <a asp-action="Details" asp-route-id=@kategori.Id>Detay</a> |
+                    <a asp-action="Delete" asp-route-id=@kategori.Id>Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,78 @@
+﻿@model UrunModel
+
+<h4>Ürün</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+        @*<form asp-action="Create">*@
+			@using(Html.BeginForm())
+			{
+		@Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-3">
+                <label asp-for="Adi" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<input asp-for="Adi" class="form-control" />
+					<span asp-validation-for="Adi" class="text-danger"></span>
+				</div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="Aciklamasi" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					@*<input asp-for="Aciklamasi" class="form-control" />*@
+					<textarea asp-for="Aciklamasi" class="form-control" rows="3"></textarea>
+					<span asp-validation-for="Aciklamasi" class="text-danger"></span>
+				</div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="BirimFiyati" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<input asp-for="BirimFiyati" class="form-control" />
+					<span asp-validation-for="BirimFiyati" class="text-danger"></span>
+				</div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="StokMiktari" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<input asp-for="StokMiktari" class="form-control" />
+					<span asp-validation-for="StokMiktari" class="text-danger"></span>
+				</div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="SonKullanmaTarihi" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<input asp-for="SonKullanmaTarihi" class="form-control" id="tarih" type="text" />
+					<span asp-validation-for="SonKullanmaTarihi" class="text-danger"></span>
+				</div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="KategoriId" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<select asp-for="KategoriId" class ="form-control" asp-items="ViewBag.KategoriId">
+						<option value="">-- Seçiniz --</option>
+					</select>
+					<span asp-validation-for="KategoriId" class="text-danger"></span>
+				</div>
+            </div>
+
+@*            <div class="row mb-3">
+                <label asp-for="Guid" class="col-2 col-form-label"></label>
+				<div class="col-5">
+					<input asp-for="Guid" class="form-control" />
+					<span asp-validation-for="Guid" class="text-danger"></span>
+				</div>
+            </div>*@
+
+            <div class="row mb-3">
+				<div class="offset-2 col-5">
+					<input type="submit" value="Kaydet" class="btn btn-primary" />
+					&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-outline-primary">Temizle</button>
+					&nbsp;&nbsp;
+					<a asp-action="Index">Ürün Listele</a>
+				</div>
+            </div>
+        @*</form>*@
+		}
+    </div>
+</div>

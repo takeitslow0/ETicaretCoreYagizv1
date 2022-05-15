@@ -1,0 +1,54 @@
+﻿@model UrunModel
+
+@{
+    ViewData["Title"] = "Ürün Detayı";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Ürün</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Adi)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.Adi)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Aciklamasi)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.Aciklamasi)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.BirimFiyatiDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.BirimFiyatiDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.StokMiktari)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.StokMiktari)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.SonKullanmaTarihiDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.SonKullanmaTarihiDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.KategoriAdiDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.KategoriAdiDisplay)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Düzenle</a>&nbsp;|&nbsp;
+    <a asp-action="Index">Ürün Listesi</a>
+</div>

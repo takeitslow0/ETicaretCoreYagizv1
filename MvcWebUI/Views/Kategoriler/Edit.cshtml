@@ -1,0 +1,79 @@
+﻿@*@model DataAccess.Entities.Kategori*@
+@model KategoriModel
+
+@{
+    ViewData["Title"] = "Kategori Düzenle";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Kategori</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+
+        @*<form action="/Kategoriler/Edit" method="post">*@
+
+        @*@using (Html.BeginForm("Edit", "Kategoriler", FormMethod.Post))
+            {*@
+
+        <form asp-action="Edit" asp-controller="Kategoriler" method="post">
+
+            @Html.AntiForgeryToken()
+
+            @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-3">
+
+                @*@Html.Label("Adi", "Adı", new { @calss = "col-2 col-form-label"})
+                    @Html.LabelFor(m => m.Adi, new { @calss = "col-2 col-form-label"})*@
+
+                <label asp-for="Adi" class="col-2 col-form-label"></label>
+
+                <div class="col-5">
+
+                    @*@Html.TextBoxFor(m => m.Adi, new { @class = "form-control "})*@
+
+                    <input asp-for="Adi" class="form-control" type="text" />
+
+                    @*@Html.ValidationMessageFor(m => m.Adi, null, new { @class = "text-danger" })*@
+
+                    <span asp-validation-for="Adi" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="Aciklamasi" class="col-2 col-form-label"></label>
+                <div class="col-5">
+
+                    @*@Html.TextAreaFor(m => m.Aciklamasi, new { @class = "form-control", rows = "3"})*@
+
+                    <textarea input asp-for="Aciklamasi" class="form-control"></textarea>
+
+                    <span asp-validation-for="Aciklamasi" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*@Html.HiddenFor(m => m.Id)*@
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row mb-3">
+                <div class="offset-2 col-5">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    &nbsp;&nbsp;
+                    <button type="reset" class="btn btn-outline-primary">Temizle</button>
+                    &nbsp;&nbsp;
+
+                    @*<a href="/Kategoriler/Index">Kategori Listesi</a>
+
+                        @Html.ActionLink("Kategori Listesi", "Index")*@
+
+                    <a asp-action="Index">Kategori Listesi</a>
+                </div>
+            </div>
+
+            @*}*@
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@model UrunModel
+
+@{
+    ViewData["Title"] = "Ürün Düzenle";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<partial name="_CreateEdit" model="@Model" />
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial" />
+
+	<link href="/plugins/boostrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+	<script src="/plugins/boostrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="/plugins/boostrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+
+	<script>
+		$(function(){
+			$('#tarih').datepicker({
+				todayBtn: "linked",
+				clearBtn: true,
+				language: "tr",
+				orientation: "top auto",
+				autoclose: true,
+				todayHighlight: true
+		});
+	});
+	</script>
+}

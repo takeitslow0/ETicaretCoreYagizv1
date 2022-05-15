@@ -1,0 +1,50 @@
+﻿@*@model DataAccess.Entities.Kategori*@
+@model KategoriModel
+
+@{
+    ViewData["Title"] = "Kategori Detayı";
+}
+
+@*<h1>Details</h1>*@
+<h1>@ViewData["Title"]</h1>
+
+
+<div>
+    <h4>Kategori</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Adi)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Adi)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Aciklamasi)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Aciklamasi)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UrunSayisiDisplay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UrunSayisiDisplay)
+        </dd>
+
+        @*<dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Guid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Guid)
+        </dd>*@
+
+    </dl>
+</div>
+<div>
+    @* Kategori/Edit/4 *@
+    @*@Html.ActionLink("Düzenle", "Edit", "Kategoriler", new { id = Model?.Id})*@
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Düzenle</a> |
+
+    <a asp-action="Index">Kategori Listesi</a>
+</div>
