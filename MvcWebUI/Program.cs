@@ -16,6 +16,8 @@ builder.Services.AddScoped<IKategoriService, KategoriService>();
 //builder.Services.AddSingleton<IKategoriService, KategoriService>();
 //builder.Services.AddTransient<IKategoriService, KategoriService>();
 builder.Services.AddScoped<IUrunService, UrunService>();
+builder.Services.AddScoped<IHesapService, HesapService>();
+builder.Services.AddScoped<IKullaniciService, KullaniciService>();
 
 var app = builder.Build();
 

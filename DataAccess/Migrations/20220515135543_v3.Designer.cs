@@ -4,6 +4,7 @@ using DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ETicaretContext))]
-    partial class ETicaretContextModelSnapshot : ModelSnapshot
+    [Migration("20220515135543_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,28 +80,6 @@ namespace DataAccess.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("Kullanicilar");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.KullaniciDetayi", b =>
-                {
-                    b.Property<int>("KullaniciId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Adres")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Cinsiyet")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Eposta")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("KullaniciId");
-
-                    b.ToTable("KullaniciDetaylari");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Rol", b =>
@@ -167,21 +147,10 @@ namespace DataAccess.Migrations
                     b.HasOne("DataAccess.Entities.Rol", "Rol")
                         .WithMany("Kullanicilar")
                         .HasForeignKey("RolId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Rol");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.KullaniciDetayi", b =>
-                {
-                    b.HasOne("DataAccess.Entities.Kullanici", "Kullanici")
-                        .WithOne("KullaniciDetayi")
-                        .HasForeignKey("DataAccess.Entities.KullaniciDetayi", "KullaniciId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Kullanici");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Urun", b =>
@@ -198,11 +167,6 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Entities.Kategori", b =>
                 {
                     b.Navigation("Urunler");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.Kullanici", b =>
-                {
-                    b.Navigation("KullaniciDetayi");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Rol", b =>

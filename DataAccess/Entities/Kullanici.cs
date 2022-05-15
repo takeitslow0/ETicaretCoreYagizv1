@@ -19,5 +19,7 @@ namespace DataAccess.Entities
         public int RolId { get; set; }
 
         public Rol Rol { get; set; }
+
+        public KullaniciDetayi KullaniciDetayi { get; set; }
     }
 }
