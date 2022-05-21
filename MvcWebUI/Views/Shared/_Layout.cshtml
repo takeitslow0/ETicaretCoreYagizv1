@@ -12,7 +12,7 @@
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>E-Ticaret</h3>
+                <a class="a-sidebar" asp-action="Index" asp-controller="Home"><h3>E-Ticaret</h3></a>
             </div>
             <ul class="list-unstyled components">
                 <li class="nav-item">
@@ -25,12 +25,15 @@
                     </li>
                 }
             </ul>
-            <ul class="list-unstyled admin">
-                <p>Admin</p>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <ul class="list-unstyled admin">
+                    <p>Admin</p>
                 <li class="nav-item">
                     <a class="a-navbar" asp-action="seed" asp-controller="Database"> Verileri Sıfırla</a>
                 </li>
             </ul>
+            }
         </nav>
         <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -49,25 +52,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="a-navbar" href="#"> Ana Sayfa</a>
+                            @*<a class="a-navbar" href="#"> Ana Sayfa</a>*@
                         </li>
                     </ul>
                     <div class="navbar-text">
                         <ul class="navbar-nav mr-auto">
+                            @if(!User.Identity.IsAuthenticated)
+                            {
                             <li class="nav-item">
-                                <a class="a-navbar" href="#"> Kayıt</a>
+                                <a class="a-navbar" asp-action="Kayit" asp-controller="Hesaplar"> Kayıt</a>
                             </li>
                             <li class="nav-item">
-                                <a class="a-navbar" href="#"> Giriş</a>
+                                <a class="a-navbar" asp-action="Giris" asp-controller="Hesaplar"> Giriş</a>
                             </li>
+                            }
+                            else
+                            {
                             <li class="nav-item">
                                 <div class="div-navbar">
-                                    <span class="s-navbar"> KullanıcıAdı</span>
+                                    <span class="s-navbar">@User.Identity.Name</span>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="a-navbar" href="#"> Çıkış</a>
+                                <a class="a-navbar" asp-action="Cikis" asp-controller="Hesaplar"> Çıkış</a>
                             </li>
+                            }
                         </ul>
                     </div>
                 </div>
