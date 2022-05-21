@@ -34,13 +34,14 @@ public class KullaniciService : IKullaniciService
 
     public IQueryable<KullaniciModel> Query()
     {
-        return Repo.Query().Select(e => new KullaniciModel()
+        return Repo.Query("Rol").Select(e => new KullaniciModel()
         {
             AktifMi = e.AktifMi,
             Id = e.Id,
             KullaniciAdi = e.KullaniciAdi,
             RolId = e.RolId,
             Sifre = e.Sifre,
+            RolAdiDisplay = e.Rol.Adi
         });
     }
 

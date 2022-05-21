@@ -1,10 +1,12 @@
 ﻿using AppCore.Business.Models.Result;
 using Business.Models;
 using Business.Services.Bases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MvcWebUI.Controllers
 {
+    
     public class KategorilerController : Controller
     {
         private readonly IKategoriService _kategoriService;
@@ -14,6 +16,7 @@ namespace MvcWebUI.Controllers
             _kategoriService = kategoriService;
         }
 
+        [Authorize]
         public IActionResult Index() // ~/Kategoriler/
         {
             List<KategoriModel> model = _kategoriService.Query().ToList();
@@ -22,12 +25,14 @@ namespace MvcWebUI.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult OlusturGetir() // ~/Kategoriler/OlusturGetir
         {
             return View("OlusturHtml");
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult OlusturGonder(string Adi, string Aciklamasi)
         {
             KategoriModel model = new KategoriModel()
@@ -42,6 +47,7 @@ namespace MvcWebUI.Controllers
             return View("Hata", result.Message);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int? id) //Kategoriler/Edit/1
         {
             if(id == null)
@@ -54,6 +60,7 @@ namespace MvcWebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(KategoriModel model)
         {
             if (ModelState.IsValid)
@@ -65,7 +72,7 @@ namespace MvcWebUI.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Details(int? id) // ~/Kategoriler/Dtails
         {
             if (id == null)
@@ -76,6 +83,7 @@ namespace MvcWebUI.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int? id)
         {
             if (id == null)

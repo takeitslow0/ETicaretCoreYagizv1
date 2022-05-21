@@ -22,5 +22,10 @@ namespace Business.Models
         [DisplayName("Rol")]
         public int RolId { get; set; }
         #endregion
+
+        #region Sayfanın İhtiyaçları
+        [DisplayName("Rol Adı")]
+        public string RolAdiDisplay { get; set; }
+        #endregion
     }
 }
