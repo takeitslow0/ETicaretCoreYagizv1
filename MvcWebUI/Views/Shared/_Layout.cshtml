@@ -16,11 +16,14 @@
             </div>
             <ul class="list-unstyled components">
                 <li class="nav-item">
-                    <a class="a-sidebar" asp-action="Index" asp-controller="Urunler"> Ürünler</a>
+                    <a class="a-sidebar" asp-action="Index" asp-controller="Urunler">Ürünler</a>
                 </li>
-                <li class="nav-item">
-                    <a class="a-sidebar" asp-action="Index" asp-controller="Kategoriler"> Kategoriler</a>
-                </li>
+                 @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="a-sidebar" asp-action="Index" asp-controller="Kategoriler"> Kategoriler</a>
+                    </li>
+                }
             </ul>
             <ul class="list-unstyled admin">
                 <p>Admin</p>
