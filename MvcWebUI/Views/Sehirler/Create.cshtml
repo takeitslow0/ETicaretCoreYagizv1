@@ -1,0 +1,57 @@
+﻿@model SehirModel
+
+@{
+    ViewData["Title"] = "Yeni Şehir";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Şehir</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <form asp-action="Create">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-3">
+                <label asp-for="Adi" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="Adi" class="form-control" />
+                    <span asp-validation-for="Adi" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="UlkeId" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <select asp-for="UlkeId" class="form-control ulkeler" asp-items="ViewBag.UlkeId">
+                        <option value="">-- Seçiniz --</option>
+                    </select>
+                    <span asp-validation-for="UlkeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-2 col-5">
+                    <input type="submit" value="Kaydet" class="btn btn-primary" />
+                    &nbsp;&nbsp;
+                    <button type="reset" class="btn btn-outline-primary">Temizle</button>
+                    &nbsp;&nbsp;
+                    <a asp-action="Index">Şehir Listesi</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    @* https://select2.org/ *@
+    <link rel="stylesheet" href="/lib/select2/css/select2.min.css" />
+    <script src="/lib/select2/js/select2.min.js"></script>
+    <script src="/lib/select2/js/i18n/tr.min.js"></script>
+
+    <script>
+        $(function() {
+            $(".ulkeler").select2();
+        });
+    </script>
+}

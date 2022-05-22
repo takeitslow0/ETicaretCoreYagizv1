@@ -97,7 +97,17 @@ namespace DataAccess.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("SehirId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UlkeId")
+                        .HasColumnType("int");
+
                     b.HasKey("KullaniciId");
+
+                    b.HasIndex("SehirId");
+
+                    b.HasIndex("UlkeId");
 
                     b.ToTable("KullaniciDetaylari");
                 });
@@ -121,6 +131,53 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roller");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Sehir", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Adi")
+                        .IsRequired()
+                        .HasMaxLength(170)
+                        .HasColumnType("nvarchar(170)");
+
+                    b.Property<string>("Guid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UlkeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UlkeId");
+
+                    b.ToTable("Sehirler");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Ulke", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Adi")
+                        .IsRequired()
+                        .HasMaxLength(105)
+                        .HasColumnType("nvarchar(105)");
+
+                    b.Property<string>("Guid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ulkeler");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Urun", b =>
@@ -181,7 +238,34 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("DataAccess.Entities.Sehir", "Sehir")
+                        .WithMany("KullaniciDetaylari")
+                        .HasForeignKey("SehirId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DataAccess.Entities.Ulke", "Ulke")
+                        .WithMany("KullaniciDetaylari")
+                        .HasForeignKey("UlkeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Kullanici");
+
+                    b.Navigation("Sehir");
+
+                    b.Navigation("Ulke");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Sehir", b =>
+                {
+                    b.HasOne("DataAccess.Entities.Ulke", "Ulke")
+                        .WithMany("Sehirler")
+                        .HasForeignKey("UlkeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Ulke");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Urun", b =>
@@ -208,6 +292,18 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Entities.Rol", b =>
                 {
                     b.Navigation("Kullanicilar");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Sehir", b =>
+                {
+                    b.Navigation("KullaniciDetaylari");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Ulke", b =>
+                {
+                    b.Navigation("KullaniciDetaylari");
+
+                    b.Navigation("Sehirler");
                 });
 #pragma warning restore 612, 618
         }

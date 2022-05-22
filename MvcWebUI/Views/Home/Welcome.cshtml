@@ -4,5 +4,12 @@
 
 <div class="text-left">
     <h1 class="display-4">E-Ticaret</h1>
-    <p>Hoşgeldiniz.</p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>Hoşgeldiniz @User.Identity.Name.</p>
+    }
+    else
+    {
+        <p>Hoşgeldiniz</p>
+    }
 </div>

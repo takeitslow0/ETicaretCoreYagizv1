@@ -1,0 +1,156 @@
+﻿@using DataAccess.Enums
+@using Business.Models
+
+@model KullaniciKayitModel
+
+@{
+    ViewData["Title"] = "Kullanıcı Kayıt";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <form asp-action="Kayit">
+            @Html.AntiForgeryToken()
+            @if (ViewBag.Mesaj != null)
+            {
+                <p class="text-danger">
+                    @ViewBag.Mesaj
+                </p>
+            }
+            <div class="row mb-3">
+                <label asp-for="KullaniciAdi" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="KullaniciAdi" class="form-control" />
+                    <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="Sifre" class="col-2 col-form-label"></label>
+                <div class="col-4">
+                    <input asp-for="Sifre" class="form-control" type="password" id="sifre" />
+                    <span asp-validation-for="Sifre" class="text-danger"></span>
+                </div>
+                <div class="col-1">
+                    <a id="sifregostergizle" href="#" title="Şifre Göster / Gizle"><i class="far fa-eye"></i></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="SifreOnay" class="col-2 col-form-label"></label>
+                <div class="col-4">
+                    <input asp-for="SifreOnay" class="form-control" type="password" id="sifreonay" />
+                    <span asp-validation-for="SifreOnay" class="text-danger"></span>
+                </div>
+                <div class="col-1">
+                    <a id="sifreonaygostergizle" href="#" title="Şifre Onay Göster / Gizle"><i class="far fa-eye"></i></a>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="KullaniciDetayi.Cinsiyet" class="col-2 col-form-label"></label>
+                <div class="col-5" style="padding-top:7px;">
+                    <input asp-for="KullaniciDetayi.Cinsiyet" type="radio" value="@((int)Cinsiyet.Kadın)" checked /> @Cinsiyet.Kadın
+                    &nbsp;
+                    <input asp-for="KullaniciDetayi.Cinsiyet" type="radio" value="@((int)Cinsiyet.Erkek)" /> @Cinsiyet.Erkek
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="KullaniciDetayi.Eposta" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="KullaniciDetayi.Eposta" class="form-control" type="email" />
+                    <span asp-validation-for="KullaniciDetayi.Eposta" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="KullaniciDetayi.UlkeId" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <select asp-for="KullaniciDetayi.UlkeId" class="form-control" asp-items="ViewBag.UlkeId" id="ulkeler">
+                        <option value="">-- Seçiniz --</option>
+                    </select>
+                    <span asp-validation-for="KullaniciDetayi.UlkeId" class="text-danger" id="ulkelermesaj"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="KullaniciDetayi.SehirId" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <select asp-for="KullaniciDetayi.SehirId" class="form-control" id="sehirler" asp-items="ViewBag.SehirId">
+                        <option value="">-- Ülke Seçiniz --</option>
+                    </select>
+                    <span asp-validation-for="KullaniciDetayi.SehirId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label asp-for="KullaniciDetayi.Adres" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <textarea asp-for="KullaniciDetayi.Adres" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="KullaniciDetayi.Adres" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-2 col-5">
+                    <input type="submit" value="Kaydet" class="btn btn-primary" />
+                    &nbsp;&nbsp;
+                    <button type="reset" class="btn btn-outline-primary">Temizle</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+<script src="/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    $(function() {
+         // ajax: asynchronous javascript and xml, json: javascript object notification
+         $("#ulkeler").off("change"); // daha önce tanımlanmış event'in kaldırılmasını sağlar
+         $("#ulkeler").change(function() {
+            $("#sehirler").empty();
+            $("#ulkelermesaj").text("");
+            var seciliUlkeId = $("#ulkeler").val();
+            // === ve !== hem veri değerlerine hem de veri tiplerine bakar
+            // == ve != sadece veri değerlerine bakar
+            //if (seciliUlkeId == "") {
+            if (seciliUlkeId === "") {
+                $("#ulkelermesaj").text("Lütfen ülke seçiniz...");
+                $("#sehirler").append('<option value="">-- Ülke Seçiniz --</option>');
+            } else {
+
+                $.getJSON(
+                    // GET isteği 1. yöntem
+                    //"/SehirlerAjax/SehirlerGet/" + seciliUlkeId, 
+                    /*------------------------------------------------------*/
+                    // GET isteği 2. yöntem
+                    "/SehirlerAjax/SehirlerGet", 
+                    { ulkeId: seciliUlkeId },
+                    function(sehirler) {
+                        $("#sehirler").append('<option value="">-- Şehir Seçiniz --</option>');
+                        for (var i = 0; i < sehirler.length; i++) {
+                            $("#sehirler").append('<option value="' + sehirler[i].id + '">' + sehirler[i].adi + '</option>');
+                        }
+                    }
+                );
+            }
+         });
+         var sifreGoster = false;
+         $(document).on('click', '#sifregostergizle', function(event) {
+             event.preventDefault();
+             sifreGoster = !sifreGoster;
+             if (sifreGoster)
+                 $("#sifre").prop("type", "text");
+             else
+                 $("#sifre").prop("type", "password");
+         });
+         var sifreOnayGoster = false;
+         $(document).on('click', '#sifreonaygostergizle', function(event) {
+             event.preventDefault();
+             sifreOnayGoster = !sifreOnayGoster;
+             if (sifreOnayGoster)
+                 $("#sifreonay").prop("type", "text");
+             else
+                 $("#sifreonay").prop("type", "password");
+         });
+    });
+</script>
+}

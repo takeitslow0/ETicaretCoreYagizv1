@@ -10,6 +10,8 @@ namespace DataAccess.Contexts
         public DbSet<Kullanici> Kullanicilar { get; set; }
         public DbSet<Rol> Roller { get; set; }
         public DbSet<KullaniciDetayi> KullaniciDetaylari { get; set; }
+        public DbSet<Ulke> Ulkeler { get; set; }
+        public DbSet<Sehir> Sehirler { get; set; }
 
 
 
@@ -46,6 +48,27 @@ namespace DataAccess.Contexts
                .WithOne(x => x.KullaniciDetayi)
                .HasForeignKey<KullaniciDetayi>(x => x.KullaniciId)
                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<KullaniciDetayi>()
+                .HasOne(kullaniciDetayi => kullaniciDetayi.Ulke)
+                .WithMany(ulke => ulke.KullaniciDetaylari)
+                .HasForeignKey(kullaniciDetayi => kullaniciDetayi.UlkeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<KullaniciDetayi>()
+                .HasOne(kullaniciDetayi => kullaniciDetayi.Sehir)
+                .WithMany(sehir => sehir.KullaniciDetaylari)
+                .HasForeignKey(kullaniciDetayi => kullaniciDetayi.SehirId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Sehir>()
+                //.ToTable("ETicaretSehirler")
+                .HasOne(sehir => sehir.Ulke)
+                .WithMany(ulke => ulke.Sehirler)
+                .HasForeignKey(sehir => sehir.UlkeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
         }
     }
 }

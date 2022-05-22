@@ -3,6 +3,7 @@ using Business.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace MvcWebUI.Controllers
@@ -10,6 +11,8 @@ namespace MvcWebUI.Controllers
     public class HesaplarController : Controller
     {
         private readonly IHesapService _hesapService;
+
+        private readonly IUlkeService _ulkeService;
 
         public HesaplarController(IHesapService hesapService)
         {
@@ -47,5 +50,25 @@ namespace MvcWebUI.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Cikis()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
+        public IActionResult YetkisizIslem()
+        {
+            return View("Hata", "Bu işlem için yetkiniz bulunmamaktadır !");
+        }
+        public IActionResult Kayit()
+        {
+            return View();
+           var result = ViewBag.Ulkeler = _ulkeService.Query().ToList();
+            if (result.IsSuccessful)
+                ViewBag.UlkeId = new SelectList(result.Data, "Id", "Adi");
+            else
+                ViewBag.Mesaj = result.Message;
+            return View();
+
+        }
     }
 }

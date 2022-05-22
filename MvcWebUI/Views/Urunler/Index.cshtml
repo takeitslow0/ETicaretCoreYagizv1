@@ -7,34 +7,37 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@if(TempData["Mesaj"] != null)
+@if (TempData["Mesaj"] != null)
 {
     <p class="bg-succes text-white">
         @TempData["Mesaj"]
     </p>
 }
 
-@if(TempData["Succes"] != null)
+@if (TempData["Succes"] != null)
 {
     <p class="text-success">@TempData["Success"]</p>
 }
-@if(TempData["Error"] != null)
+@if (TempData["Error"] != null)
 {
     <p class="text-success">@TempData["Error"]</p>
 }
 
-<p>
-    <a asp-action="Create">Yeni Ürün</a>
-</p>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Yeni Ürün</a>
+    </p>
+}
 <table id="urunler" class="display" style="width:100%">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Adi)
             </th>
-@*            <th>
+            @*            <th>
                 @Html.DisplayNameFor(model => model.Aciklamasi)
-            </th>*@
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.BirimFiyatiDisplay)
             </th>
@@ -44,78 +47,88 @@
             <th>
                 @Html.DisplayNameFor(model => model.SonKullanmaTarihiDisplay) (Yıl-Ay-Gün)
             </th>
-@*            <th>
+            @*            <th>
                 @Html.DisplayNameFor(model => model.Kategori)
-            </th>
-            <th>
+                </th>
+                <th>
                 @Html.DisplayNameFor(model => model.Guid)
-            </th>*@
+                </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adi)
-                @*@item.Adi*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirimFiyatiDisplay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StokMiktari)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SonKullanmaTarihiDisplay)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Kategori.Adi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Guid)
-            </td>*@
-            <td>
-				<a asp-action="Details" asp-route-id="@item.Id">Detaylar</a>&nbsp;|&nbsp;
-                <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a>&nbsp;|&nbsp;
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adi)
+                    @*@item.Adi*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirimFiyatiDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StokMiktari)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SonKullanmaTarihiDisplay)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Kategori.Adi)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Guid)
+                    </td>*@
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        
+                        <a asp-action="Details" asp-route-id="@item.Id">Detaylar</a>
+                        @:&nbsp;| &nbsp;
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a>
+                            <text>&nbsp;| &nbsp;</text>
 
-                <a href="#" onclick="sil(@item.Id);">Sil</a>
-            </td>
-        </tr>
+                            <a href="#" onclick="sil(@item.Id);">Sil</a>
+                        }
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 
 @section Scripts {
-    <link rel="stylesheet" href="/lib/datatables/css/jquery.dataTables.min.css" />
-    <script src="/lib/datatables/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="/lib/datatables/css/jquery.dataTables.min.css" />
+<script src="/lib/datatables/js/jquery.dataTables.min.js"></script>
 
-    <link href="~/lib/AlertifyJS/css/alertify.min.css" rel="stylesheet" />
-    <script src="~/lib/AlertifyJS/alertify.min.js"></script>
+<link href="~/lib/AlertifyJS/css/alertify.min.css" rel="stylesheet" />
+<script src="~/lib/AlertifyJS/alertify.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('#urunler').DataTable(
-            {
-                language : {
-                    url: "/json/datatablesTurkish.json"
-                }
-            });
-        });
-
-        function sil(id){
-            alertify.confirm("Uyarı!",
-                "Bu ürünü silmek istediğinize emin misiniz ?",
-            function(){
-                alertify.success('Sil');
-                window.location.href = "/Urunler/Delete/" + id
-            },
-            function(){
-                alertify.error('Geri');
+<script>
+    $(document).ready(function () {
+        $('#urunler').DataTable(
+        {
+            language : {
+                url: "/json/datatablesTurkish.json"
             }
-            ).set('labels', { ok: 'Evet', cancel: 'Hayır' });
+        });
+    });
+
+    function sil(id){
+        alertify.confirm("Uyarı!",
+            "Bu ürünü silmek istediğinize emin misiniz ?",
+        function(){
+            alertify.success('Sil');
+            window.location.href = "/Urunler/Delete/" + id
+        },
+        function(){
+            alertify.error('Geri');
         }
-    </script>
+        ).set('labels', { ok: 'Evet', cancel: 'Hayır' });
+    }
+</script>
 
     @*https://alertifyjs.com/*@
 }

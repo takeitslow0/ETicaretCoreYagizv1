@@ -22,15 +22,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 #endregion
 //IoC Container: Inversion of Control Container: Baðýmlýlýklarýn yönetimi: Autofac, Ninject
-//builder.Services.AddDbContext<ETicaretContext>();
-//builder.Services.AddScoped<KategoriRepoBase, KategoriRepo>();
 builder.Services.AddScoped<IKategoriService, KategoriService>();
-//builder.Services.AddSingleton<IKategoriService, KategoriService>();
-//builder.Services.AddTransient<IKategoriService, KategoriService>();
 builder.Services.AddScoped<IUrunService, UrunService>();
+builder.Services.AddScoped<ISehirService, SehirService>();
+builder.Services.AddScoped<IUlkeService, UlkeService>();
+builder.Services.AddScoped<IHesapService, HesapService>();
 builder.Services.AddScoped<IHesapService, HesapService>();
 builder.Services.AddScoped<IKullaniciService, KullaniciService>();
-builder.Services.AddScoped<IHesapService, HesapService>();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
