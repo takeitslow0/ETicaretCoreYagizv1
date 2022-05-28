@@ -18,10 +18,10 @@ namespace DataAccess.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Windows Authentication
-            //string connectionString = "server=.;database=BA_ETicaretCore8523;trusted_connection=true;multipleactiveresultsets=true;";
+            string connectionString = @"server=.\SQLEXPRESS01;database=BA_ETicaretCore8523;trusted_connection=true;multipleactiveresultsets=true;";
 
             //SQL Server Authentication
-            string connectionString = "server=.;database=BA_ETicaretCore8523;user id=sa;password=123;multipleactiveresultsets=true;";
+            //string connectionString = @"server=.;database=BA_ETicaretCore8523;user id=sa;password=123;multipleactiveresultsets=true;";
 
             optionsBuilder.UseSqlServer(connectionString);
         }

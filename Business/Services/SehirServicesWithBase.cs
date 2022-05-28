@@ -10,7 +10,7 @@ namespace Business.Services
 {
     public interface ISehirService : IService<SehirModel, Sehir, ETicaretContext>
     {
-        Result<List<SehirModel>> SehirleriGetir(int ulkeId);
+        Result<List<SehirModel>> List();
     }
 
     public class SehirService : ISehirService
@@ -24,6 +24,7 @@ namespace Business.Services
                 Id = s.Id,
                 Adi = s.Adi,
                 UlkeId = s.UlkeId,
+                
                 Ulke = new UlkeModel()
                 {
                     Id = s.Ulke.Id,
@@ -72,10 +73,12 @@ namespace Business.Services
             Repo.Dispose();
         }
 
-        public Result<List<SehirModel>> SehirleriGetir(int ulkeId)
+        public Result<List<SehirModel>> List()
         {
-            var sehirler = Query().Where(s => s.UlkeId == ulkeId).ToList();
-            return new SuccessResult<List<SehirModel>>(sehirler);
+            var list = Query().ToList();
+            if (list.Count == 0)
+                return new ErrorResult<List<SehirModel>>("Şehir bulunamadı !");
+            return new SuccessResult<List<SehirModel>>(list.Count + " adet şehir bulundu.", list);
         }
     }
 }
